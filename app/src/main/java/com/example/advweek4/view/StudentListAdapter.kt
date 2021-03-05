@@ -36,6 +36,6 @@ class StudentListAdapter(val studentList:ArrayList<Student>):RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
         holder.view.txtID.text = studentList[position].id
-        holder.view.txtID.text = studentList[position].name
+        holder.view.txtName.text = studentList[position].name
     }
 }
