@@ -1,6 +1,7 @@
 package com.example.advweek4.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,12 @@ import com.example.advweek4.R
 import com.example.advweek4.util.loadImage
 import com.example.advweek4.viewmodel.DetailViewModel
 import com.example.advweek4.viewmodel.ListViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_student_detail.*
 import kotlinx.android.synthetic.main.fragment_student_list.*
+import java.util.concurrent.TimeUnit
 
 class StudentDetailFragment : Fragment() {
     private lateinit var viewModel:DetailViewModel
@@ -49,6 +54,17 @@ class StudentDetailFragment : Fragment() {
                 txtDetailName.setText(it.name)
                 txtDetailBod.setText(it.bod)
                 txtDetailPhone.setText(it.phone)
+
+                var student = it
+                btnNotif.setOnClickListener{
+                    Observable.timer(5, TimeUnit.SECONDS)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe{
+                            Log.d("Messages", "Five Seconds")
+                            MainActivity.showNotification(student.name.toString(), "A new notification created", R.drawable.ic_baseline_person_24)
+                        }
+                }
             }
         })
     }
